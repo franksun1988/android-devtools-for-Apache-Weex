@@ -15,26 +15,26 @@ import com.taobao.weex.devtools.json.annotation.JsonProperty;
 
 import org.json.JSONObject;
 
-@SuppressLint({ "UsingDefaultJsonDeserializer", "EmptyJsonPropertyUse" })
+@SuppressLint({"UsingDefaultJsonDeserializer", "EmptyJsonPropertyUse"})
 public class JsonRpcRequest {
-  /**
-   * This field is not required so that we can support JSON-RPC "notification" requests.
-   */
-  @JsonProperty
-  public Long id;
+    /**
+     * This field is not required so that we can support JSON-RPC "notification" requests.
+     */
+    @JsonProperty
+    public Long id;
 
-  @JsonProperty(required = true)
-  public String method;
+    @JsonProperty(required = true)
+    public String method;
 
-  @JsonProperty
-  public JSONObject params;
+    @JsonProperty
+    public JSONObject params;
 
-  public JsonRpcRequest() {
-  }
+    public JsonRpcRequest() {
+    }
 
-  public JsonRpcRequest(Long id, String method, JSONObject params) {
-    this.id = id;
-    this.method = method;
-    this.params = params;
-  }
+    public JsonRpcRequest(Long id, String method, JSONObject params) {
+        this.id = id;
+        this.method = method;
+        this.params = params;
+    }
 }

@@ -17,23 +17,23 @@ import com.taobao.weex.devtools.inspector.protocol.ChromeDevtoolsMethod;
 import org.json.JSONObject;
 
 public class Debugger implements ChromeDevtoolsDomain {
-  public Debugger() {
-  }
+    public Debugger() {
+    }
 
-  @ChromeDevtoolsMethod
-  public void enable(JsonRpcPeer peer, JSONObject params) {
-  }
+    @ChromeDevtoolsMethod
+    public void enable(JsonRpcPeer peer, JSONObject params) {
+    }
 
-  @ChromeDevtoolsMethod
-  public void disable(JsonRpcPeer peer, JSONObject params) {
-  }
+    @ChromeDevtoolsMethod
+    public void disable(JsonRpcPeer peer, JSONObject params) {
+    }
 
-  @ChromeDevtoolsMethod
-  public JsonRpcResult canSetScriptSource(JsonRpcPeer peer, JSONObject params) {
-    return new SimpleBooleanResult(false);
-  }
+    @ChromeDevtoolsMethod
+    public JsonRpcResult canSetScriptSource(JsonRpcPeer peer, JSONObject params) {
+        return new SimpleBooleanResult(false);
+    }
 
-  @ChromeDevtoolsMethod
-  public void setPauseOnExceptions(JsonRpcPeer peer, JSONObject params) {
-  }
+    @ChromeDevtoolsMethod
+    public void setPauseOnExceptions(JsonRpcPeer peer, JSONObject params) {
+    }
 }

@@ -17,84 +17,84 @@ import java.util.Map;
 import javax.annotation.Nullable;
 
 public final class DescriptorMap {
-  private final Map<Class<?>, Descriptor> mMap = new IdentityHashMap<>();
-  private boolean mIsInitializing;
-  private Descriptor.Host mHost;
+    private final Map<Class<?>, Descriptor> mMap = new IdentityHashMap<>();
+    private boolean mIsInitializing;
+    private Descriptor.Host mHost;
 
-  public DescriptorMap beginInit() {
-    Util.throwIf(mIsInitializing);
-    mIsInitializing = true;
-    return this;
-  }
-
-  public DescriptorMap register(Class<?> elementClass, Descriptor descriptor) {
-    Util.throwIfNull(elementClass);
-    Util.throwIfNull(descriptor);
-    Util.throwIf(descriptor.isInitialized());
-    Util.throwIfNot(mIsInitializing);
-
-    // Cannot register two descriptors for one class
-    if (mMap.containsKey(elementClass)) {
-      throw new UnsupportedOperationException();
+    public DescriptorMap beginInit() {
+        Util.throwIf(mIsInitializing);
+        mIsInitializing = true;
+        return this;
     }
 
-    // Cannot reuse one descriptor for two classes
-    if (mMap.containsValue(descriptor)) {
-      throw new UnsupportedOperationException();
+    public DescriptorMap register(Class<?> elementClass, Descriptor descriptor) {
+        Util.throwIfNull(elementClass);
+        Util.throwIfNull(descriptor);
+        Util.throwIf(descriptor.isInitialized());
+        Util.throwIfNot(mIsInitializing);
+
+        // Cannot register two descriptors for one class
+        if (mMap.containsKey(elementClass)) {
+            throw new UnsupportedOperationException();
+        }
+
+        // Cannot reuse one descriptor for two classes
+        if (mMap.containsValue(descriptor)) {
+            throw new UnsupportedOperationException();
+        }
+
+        mMap.put(elementClass, descriptor);
+        return this;
     }
 
-    mMap.put(elementClass, descriptor);
-    return this;
-  }
+    public DescriptorMap setHost(Descriptor.Host host) {
+        Util.throwIfNull(host);
+        Util.throwIfNot(mIsInitializing);
+        Util.throwIfNotNull(mHost);
 
-  public DescriptorMap setHost(Descriptor.Host host) {
-    Util.throwIfNull(host);
-    Util.throwIfNot(mIsInitializing);
-    Util.throwIfNotNull(mHost);
-
-    mHost = host;
-    return this;
-  }
-
-  public DescriptorMap endInit() {
-    Util.throwIfNot(mIsInitializing);
-    Util.throwIfNull(mHost);
-
-    mIsInitializing = false;
-
-    for (final Class<?> elementClass : mMap.keySet()) {
-      final Descriptor descriptor = mMap.get(elementClass);
-
-      if (descriptor instanceof ChainedDescriptor) {
-        final ChainedDescriptor chainedDescriptor = (ChainedDescriptor) descriptor;
-        Class<?> superClass = elementClass.getSuperclass();
-        Descriptor superDescriptor = getImpl(superClass);
-        chainedDescriptor.setSuper(superDescriptor);
-      }
-
-      descriptor.initialize(mHost);
+        mHost = host;
+        return this;
     }
 
-    return this;
-  }
+    public DescriptorMap endInit() {
+        Util.throwIfNot(mIsInitializing);
+        Util.throwIfNull(mHost);
 
-  @Nullable
-  public Descriptor get(Class<?> elementClass) {
-    Util.throwIfNull(elementClass);
-    Util.throwIf(mIsInitializing);
-    return getImpl(elementClass);
-  }
+        mIsInitializing = false;
 
-  @Nullable
-  private Descriptor getImpl(final Class<?> elementClass) {
-    Class<?> theClass = elementClass;
-    while (theClass != null) {
-      Descriptor descriptor = mMap.get(theClass);
-      if (descriptor != null) {
-        return descriptor;
-      }
-      theClass = theClass.getSuperclass();
+        for (final Class<?> elementClass : mMap.keySet()) {
+            final Descriptor descriptor = mMap.get(elementClass);
+
+            if (descriptor instanceof ChainedDescriptor) {
+                final ChainedDescriptor chainedDescriptor = (ChainedDescriptor) descriptor;
+                Class<?> superClass = elementClass.getSuperclass();
+                Descriptor superDescriptor = getImpl(superClass);
+                chainedDescriptor.setSuper(superDescriptor);
+            }
+
+            descriptor.initialize(mHost);
+        }
+
+        return this;
     }
-    return null;
-  }
+
+    @Nullable
+    public Descriptor get(Class<?> elementClass) {
+        Util.throwIfNull(elementClass);
+        Util.throwIf(mIsInitializing);
+        return getImpl(elementClass);
+    }
+
+    @Nullable
+    private Descriptor getImpl(final Class<?> elementClass) {
+        Class<?> theClass = elementClass;
+        while (theClass != null) {
+            Descriptor descriptor = mMap.get(theClass);
+            if (descriptor != null) {
+                return descriptor;
+            }
+            theClass = theClass.getSuperclass();
+        }
+        return null;
+    }
 }

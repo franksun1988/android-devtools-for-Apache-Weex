@@ -18,32 +18,32 @@ import javax.annotation.concurrent.Immutable;
 
 @Immutable
 public final class ElementInfo {
-  public final Object element;
-  public final Object parentElement;
-  public final List<Object> children;
+    public final Object element;
+    public final Object parentElement;
+    public final List<Object> children;
 
-  public ElementInfo(
-      Object element,
-      Object parentElement,
-      List<Object> children) {
-    this.element = Util.throwIfNull(element);
-    this.parentElement = parentElement;
-    this.children = ListUtil.copyToImmutableList(children);
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (o == this) {
-      return true;
+    public ElementInfo(
+            Object element,
+            Object parentElement,
+            List<Object> children) {
+        this.element = Util.throwIfNull(element);
+        this.parentElement = parentElement;
+        this.children = ListUtil.copyToImmutableList(children);
     }
 
-    if (o instanceof ElementInfo) {
-      ElementInfo other = (ElementInfo) o;
-      return this.element == other.element
-          && this.parentElement == other.parentElement
-          && ListUtil.identityEquals(this.children, other.children);
-    }
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        }
 
-    return false;
-  }
+        if (o instanceof ElementInfo) {
+            ElementInfo other = (ElementInfo) o;
+            return this.element == other.element
+                    && this.parentElement == other.parentElement
+                    && ListUtil.identityEquals(this.children, other.children);
+        }
+
+        return false;
+    }
 }

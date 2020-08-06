@@ -12,19 +12,19 @@ package com.taobao.weex.devtools.inspector.elements;
 import com.taobao.weex.devtools.json.annotation.JsonValue;
 
 public enum Origin {
-  INJECTED("injected"),
-  USER_AGENT("user-agent"),
-  INSPECTOR("inspector"),
-  REGULAR("regular");
+    INJECTED("injected"),
+    USER_AGENT("user-agent"),
+    INSPECTOR("inspector"),
+    REGULAR("regular");
 
-  private final String mValue;
+    private final String mValue;
 
-  Origin(String value) {
-    mValue = value;
-  }
+    Origin(String value) {
+        mValue = value;
+    }
 
-  @JsonValue
-  public String getProtocolValue() {
-    return mValue;
-  }
+    @JsonValue
+    public String getProtocolValue() {
+        return mValue;
+    }
 }

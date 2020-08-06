@@ -13,7 +13,7 @@ import android.content.Context;
 import android.view.View;
 
 class DocumentHiddenView extends View {
-  public DocumentHiddenView(Context context) {
-    super(context);
-  }
+    public DocumentHiddenView(Context context) {
+        super(context);
+    }
 }

@@ -12,21 +12,21 @@ package com.taobao.weex.devtools.inspector.network;
 import com.taobao.weex.devtools.inspector.protocol.module.Page;
 
 public enum PrettyPrinterDisplayType {
-  JSON(Page.ResourceType.XHR),
-  HTML(Page.ResourceType.DOCUMENT),
-  TEXT(Page.ResourceType.DOCUMENT);
+    JSON(Page.ResourceType.XHR),
+    HTML(Page.ResourceType.DOCUMENT),
+    TEXT(Page.ResourceType.DOCUMENT);
 
-  private final Page.ResourceType mResourceType;
+    private final Page.ResourceType mResourceType;
 
-  private PrettyPrinterDisplayType(Page.ResourceType resourceType) {
-    mResourceType = resourceType;
-  }
+    private PrettyPrinterDisplayType(Page.ResourceType resourceType) {
+        mResourceType = resourceType;
+    }
 
-  /**
-   * Converts PrettyPrinterDisplayType values to the appropriate
-   *  {@link Page.ResourceType} values that WeexInspector understands
-   */
-  public Page.ResourceType getResourceType() {
-    return mResourceType;
-  }
+    /**
+     * Converts PrettyPrinterDisplayType values to the appropriate
+     * {@link Page.ResourceType} values that WeexInspector understands
+     */
+    public Page.ResourceType getResourceType() {
+        return mResourceType;
+    }
 }

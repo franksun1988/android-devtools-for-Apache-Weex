@@ -14,27 +14,31 @@ import com.taobao.weex.devtools.inspector.jsonrpc.JsonRpcPeer;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class PeersRegisteredListener implements PeerRegistrationListener {
-  private AtomicInteger mPeers = new AtomicInteger(0);
+    private AtomicInteger mPeers = new AtomicInteger(0);
 
-  @Override
-  public final void onPeerRegistered(JsonRpcPeer peer) {
-    if (mPeers.incrementAndGet() == 1) {
-      onFirstPeerRegistered();
+    @Override
+    public final void onPeerRegistered(JsonRpcPeer peer) {
+        if (mPeers.incrementAndGet() == 1) {
+            onFirstPeerRegistered();
+        }
+        onPeerAdded(peer);
     }
-    onPeerAdded(peer);
-  }
 
-  @Override
-  public final void onPeerUnregistered(JsonRpcPeer peer) {
-    if (mPeers.decrementAndGet() == 0) {
-      onLastPeerUnregistered();
+    @Override
+    public final void onPeerUnregistered(JsonRpcPeer peer) {
+        if (mPeers.decrementAndGet() == 0) {
+            onLastPeerUnregistered();
+        }
+        onPeerRemoved(peer);
     }
-    onPeerRemoved(peer);
-  }
 
-  protected void onPeerAdded(JsonRpcPeer peer) {}
-  protected void onPeerRemoved(JsonRpcPeer peer) {}
+    protected void onPeerAdded(JsonRpcPeer peer) {
+    }
 
-  protected abstract void onFirstPeerRegistered();
-  protected abstract void onLastPeerUnregistered();
+    protected void onPeerRemoved(JsonRpcPeer peer) {
+    }
+
+    protected abstract void onFirstPeerRegistered();
+
+    protected abstract void onLastPeerUnregistered();
 }

@@ -18,11 +18,12 @@ import javax.annotation.Nullable;
  * this class).
  */
 public class PendingRequest {
-  public final long requestId;
-  public final @Nullable PendingRequestCallback callback;
+    public final long requestId;
+    public final @Nullable
+    PendingRequestCallback callback;
 
-  public PendingRequest(long requestId, @Nullable PendingRequestCallback callback) {
-    this.requestId = requestId;
-    this.callback = callback;
-  }
+    public PendingRequest(long requestId, @Nullable PendingRequestCallback callback) {
+        this.requestId = requestId;
+        this.callback = callback;
+    }
 }

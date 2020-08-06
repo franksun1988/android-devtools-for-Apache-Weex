@@ -21,40 +21,40 @@ import static org.mockito.Mockito.verify;
 @RunWith(RobolectricTestRunner.class)
 public class ViewDescriptorTest {
 
-  private final MethodInvoker mMethodInvoker = mock(MethodInvoker.class);
-  private final ViewDescriptor mDescriptor = new ViewDescriptor(mMethodInvoker);
-  private final Activity mActivity = Robolectric.setupActivity(Activity.class);
-  private final TextView mTextView = new TextView(mActivity);
-  private final CheckBox mCheckBox = new CheckBox(mActivity);
+    private final MethodInvoker mMethodInvoker = mock(MethodInvoker.class);
+    private final ViewDescriptor mDescriptor = new ViewDescriptor(mMethodInvoker);
+    private final Activity mActivity = Robolectric.setupActivity(Activity.class);
+    private final TextView mTextView = new TextView(mActivity);
+    private final CheckBox mCheckBox = new CheckBox(mActivity);
 
-  @Test
-  public void testSetAttributeAsTextWithSetText() {
-    mDescriptor.setAttributesAsText(mTextView, "text=\"Hello World\"");
-    verify(mMethodInvoker).invoke(mTextView, "setText", "Hello World");
-  }
+    @Test
+    public void testSetAttributeAsTextWithSetText() {
+        mDescriptor.setAttributesAsText(mTextView, "text=\"Hello World\"");
+        verify(mMethodInvoker).invoke(mTextView, "setText", "Hello World");
+    }
 
-  @Test
-  public void testSetAttributeAsTextWithSetId() {
-    mDescriptor.setAttributesAsText(mTextView, "id=\"2\"");
-    verify(mMethodInvoker).invoke(mTextView, "setId", "2");
-  }
+    @Test
+    public void testSetAttributeAsTextWithSetId() {
+        mDescriptor.setAttributesAsText(mTextView, "id=\"2\"");
+        verify(mMethodInvoker).invoke(mTextView, "setId", "2");
+    }
 
-  @Test
-  public void testSetAttributeAsTextWithSetChecked() {
-    mDescriptor.setAttributesAsText(mCheckBox, "checked=\"true\"");
-    verify(mMethodInvoker).invoke(mCheckBox, "setChecked", "true");
-  }
+    @Test
+    public void testSetAttributeAsTextWithSetChecked() {
+        mDescriptor.setAttributesAsText(mCheckBox, "checked=\"true\"");
+        verify(mMethodInvoker).invoke(mCheckBox, "setChecked", "true");
+    }
 
-  @Test
-  public void testSetMultipleAttributesAsText() {
-    mDescriptor.setAttributesAsText(mTextView, "id=\"2\" text=\"Hello World\"");
-    verify(mMethodInvoker).invoke(mTextView, "setId", "2");
-    verify(mMethodInvoker).invoke(mTextView, "setText", "Hello World");
-  }
+    @Test
+    public void testSetMultipleAttributesAsText() {
+        mDescriptor.setAttributesAsText(mTextView, "id=\"2\" text=\"Hello World\"");
+        verify(mMethodInvoker).invoke(mTextView, "setId", "2");
+        verify(mMethodInvoker).invoke(mTextView, "setText", "Hello World");
+    }
 
-  @Test
-  public void testSetAttributeAsTextIgnoreInvalidFormat() {
-    mDescriptor.setAttributesAsText(mTextView, "garbage");
-    verify(mMethodInvoker, never()).invoke(anyObject(), anyString(), anyString());
-  }
+    @Test
+    public void testSetAttributeAsTextIgnoreInvalidFormat() {
+        mDescriptor.setAttributesAsText(mTextView, "garbage");
+        verify(mMethodInvoker, never()).invoke(anyObject(), anyString(), anyString());
+    }
 }

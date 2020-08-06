@@ -18,19 +18,19 @@ import com.taobao.weex.devtools.inspector.elements.AbstractChainedDescriptor;
 import javax.annotation.Nullable;
 
 final class WindowDescriptor extends AbstractChainedDescriptor<Window>
-    implements HighlightableDescriptor {
-  @Override
-  protected void onGetChildren(Window element, Accumulator<Object> children) {
-    View decorView = element.peekDecorView();
-    if (decorView != null) {
-      children.store(decorView);
+        implements HighlightableDescriptor {
+    @Override
+    protected void onGetChildren(Window element, Accumulator<Object> children) {
+        View decorView = element.peekDecorView();
+        if (decorView != null) {
+            children.store(decorView);
+        }
     }
-  }
 
-  @Override
-  @Nullable
-  public View getViewForHighlighting(Object element) {
-    Window window = (Window) element;
-    return window.peekDecorView();
-  }
+    @Override
+    @Nullable
+    public View getViewForHighlighting(Object element) {
+        Window window = (Window) element;
+        return window.peekDecorView();
+    }
 }

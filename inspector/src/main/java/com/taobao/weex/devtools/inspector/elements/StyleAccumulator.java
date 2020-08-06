@@ -10,5 +10,5 @@
 package com.taobao.weex.devtools.inspector.elements;
 
 public interface StyleAccumulator {
-  void store(String name, String value, boolean isDefault);
+    void store(String name, String value, boolean isDefault);
 }

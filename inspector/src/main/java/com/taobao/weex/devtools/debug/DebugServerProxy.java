@@ -9,14 +9,6 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
-import com.taobao.weex.WXEnvironment;
-import com.taobao.weex.WXSDKEngine;
-import com.taobao.weex.WXSDKInstance;
-import com.taobao.weex.WXSDKManager;
-import com.taobao.weex.bridge.WXBridgeManager;
-import com.taobao.weex.bridge.WXDebugJsBridge;
-import com.taobao.weex.common.IWXBridge;
-import com.taobao.weex.common.IWXDebugConfig;
 import com.taobao.weex.devtools.WeexInspector;
 import com.taobao.weex.devtools.common.LogRedirector;
 import com.taobao.weex.devtools.common.Util;
@@ -32,8 +24,17 @@ import com.taobao.weex.devtools.inspector.jsonrpc.protocol.JsonRpcResponse;
 import com.taobao.weex.devtools.inspector.protocol.ChromeDevtoolsDomain;
 import com.taobao.weex.devtools.json.ObjectMapper;
 import com.taobao.weex.inspector.BuildConfig;
-import com.taobao.weex.utils.WXLogUtils;
 
+import org.apache.weex.WXEnvironment;
+import org.apache.weex.WXSDKEngine;
+import org.apache.weex.WXSDKInstance;
+import org.apache.weex.WXSDKManager;
+import org.apache.weex.bridge.WXBridgeManager;
+import org.apache.weex.bridge.WXDebugJsBridge;
+import org.apache.weex.common.IWXBridge;
+import org.apache.weex.common.IWXDebugConfig;
+import org.apache.weex.common.WXConfig;
+import org.apache.weex.utils.WXLogUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -117,7 +118,7 @@ public class DebugServerProxy {
 
                 private String getShakeHandsMessage() {
                     Map<String, Object> func = new HashMap<>();
-                    func.put("name", WXEnvironment.getApplication().getPackageName() + " : " + android.os.Process.myPid());
+                    func.put("name", WXEnvironment.getConfig().get(WXConfig.appName) + ":" + android.os.Process.myPid());
                     func.put("model", WXEnvironment.SYS_MODEL);
                     func.put("weexVersion", WXEnvironment.WXSDK_VERSION);
                     func.put("devtoolVersion", DEVTOOL_VERSION);

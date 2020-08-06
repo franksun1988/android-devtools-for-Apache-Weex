@@ -15,21 +15,21 @@ import javax.annotation.Nullable;
 
 public class ConsolePeerManager extends ChromePeerManager {
 
-  private static ConsolePeerManager sInstance;
+    private static ConsolePeerManager sInstance;
 
-  private ConsolePeerManager() {
-    super();
-  }
-
-  @Nullable
-  public static synchronized ConsolePeerManager getInstanceOrNull() {
-    return getOrCreateInstance();
-  }
-
-  public static synchronized ConsolePeerManager getOrCreateInstance() {
-    if (sInstance == null) {
-      sInstance = new ConsolePeerManager();
+    private ConsolePeerManager() {
+        super();
     }
-    return sInstance;
-  }
+
+    @Nullable
+    public static synchronized ConsolePeerManager getInstanceOrNull() {
+        return getOrCreateInstance();
+    }
+
+    public static synchronized ConsolePeerManager getOrCreateInstance() {
+        if (sInstance == null) {
+            sInstance = new ConsolePeerManager();
+        }
+        return sInstance;
+    }
 }

@@ -16,5 +16,5 @@ import com.taobao.weex.devtools.common.ThreadBound;
  * initialization and memory cleanup when DevTools instances disconnect.
  */
 public interface DocumentProviderFactory extends ThreadBound {
-  DocumentProvider create();
+    DocumentProvider create();
 }

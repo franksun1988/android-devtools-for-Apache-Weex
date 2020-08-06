@@ -10,7 +10,8 @@
 
 package com.taobao.weex.devtools.inspector.network;
 
-import android.support.annotation.Nullable;
+
+import androidx.annotation.Nullable;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FilterOutputStream;

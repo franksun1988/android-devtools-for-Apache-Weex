@@ -17,60 +17,60 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class ResourcesUtil {
-  private ResourcesUtil() {
-  }
-
-  @Nonnull
-  public static String getIdStringQuietly(Object idContext, @Nullable Resources r, int resourceId) {
-    try {
-      return getIdString(r, resourceId);
-    } catch (Resources.NotFoundException e) {
-      String idString = getFallbackIdString(resourceId);
-      LogUtil.w("Unknown identifier encountered on " + idContext + ": " + idString);
-      return idString;
-    }
-  }
-
-  public static String getIdString(@Nullable Resources r, int resourceId)
-      throws Resources.NotFoundException {
-    if (r == null) {
-      return getFallbackIdString(resourceId);
+    private ResourcesUtil() {
     }
 
-    String prefix;
-    String prefixSeparator;
-    switch (getResourcePackageId(resourceId)) {
-      case 0x7f:
-        prefix = "";
-        prefixSeparator = "";
-        break;
-      default:
-        prefix = r.getResourcePackageName(resourceId);
-        prefixSeparator = ":";
-        break;
+    @Nonnull
+    public static String getIdStringQuietly(Object idContext, @Nullable Resources r, int resourceId) {
+        try {
+            return getIdString(r, resourceId);
+        } catch (Resources.NotFoundException e) {
+            String idString = getFallbackIdString(resourceId);
+            LogUtil.w("Unknown identifier encountered on " + idContext + ": " + idString);
+            return idString;
+        }
     }
 
-    String typeName = r.getResourceTypeName(resourceId);
-    String entryName = r.getResourceEntryName(resourceId);
+    public static String getIdString(@Nullable Resources r, int resourceId)
+            throws Resources.NotFoundException {
+        if (r == null) {
+            return getFallbackIdString(resourceId);
+        }
 
-    StringBuilder sb = new StringBuilder(
-        1 + prefix.length() + prefixSeparator.length() +
-            typeName.length() + 1 + entryName.length());
-    sb.append("@");
-    sb.append(prefix);
-    sb.append(prefixSeparator);
-    sb.append(typeName);
-    sb.append("/");
-    sb.append(entryName);
+        String prefix;
+        String prefixSeparator;
+        switch (getResourcePackageId(resourceId)) {
+            case 0x7f:
+                prefix = "";
+                prefixSeparator = "";
+                break;
+            default:
+                prefix = r.getResourcePackageName(resourceId);
+                prefixSeparator = ":";
+                break;
+        }
 
-    return sb.toString();
-  }
+        String typeName = r.getResourceTypeName(resourceId);
+        String entryName = r.getResourceEntryName(resourceId);
 
-  private static String getFallbackIdString(int resourceId) {
-    return "#" + Integer.toHexString(resourceId);
-  }
+        StringBuilder sb = new StringBuilder(
+                1 + prefix.length() + prefixSeparator.length() +
+                        typeName.length() + 1 + entryName.length());
+        sb.append("@");
+        sb.append(prefix);
+        sb.append(prefixSeparator);
+        sb.append(typeName);
+        sb.append("/");
+        sb.append(entryName);
 
-  private static int getResourcePackageId(int id) {
-    return (id >>> 24) & 0xff;
-  }
+        return sb.toString();
+    }
+
+    private static String getFallbackIdString(int resourceId) {
+        return "#" + Integer.toHexString(resourceId);
+    }
+
+    private static int getResourcePackageId(int id) {
+        return (id >>> 24) & 0xff;
+    }
 }

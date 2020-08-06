@@ -39,162 +39,164 @@ import javax.annotation.concurrent.NotThreadSafe;
  */
 @NotThreadSafe
 public final class ActivityTracker {
-  private static final ActivityTracker sInstance = new ActivityTracker();
+    private static final ActivityTracker sInstance = new ActivityTracker();
 
-  @GuardedBy("Looper.getMainLooper()")
-  private final ArrayList<Activity> mActivities = new ArrayList<>();
-  private final List<Activity> mActivitiesUnmodifiable = Collections.unmodifiableList(mActivities);
+    @GuardedBy("Looper.getMainLooper()")
+    private final ArrayList<Activity> mActivities = new ArrayList<>();
+    private final List<Activity> mActivitiesUnmodifiable = Collections.unmodifiableList(mActivities);
 
-  private final List<Listener> mListeners = new CopyOnWriteArrayList<>();
+    private final List<Listener> mListeners = new CopyOnWriteArrayList<>();
 
-  @Nullable
-  private AutomaticTracker mAutomaticTracker;
-
-  public static ActivityTracker get() {
-    return sInstance;
-  }
-
-  public void registerListener(Listener listener) {
-    mListeners.add(listener);
-  }
-
-  public void unregisterListener(Listener listener) {
-    mListeners.remove(listener);
-  }
-
-  /**
-   * Start automatic tracking if we are running on ICS+.
-   *
-   * @return Automatic tracking has been started.  No need to manually invoke {@link #add} or
-   *     {@link #remove} methods.
-   */
-  public boolean beginTrackingIfPossible(Application application) {
-    if (mAutomaticTracker == null) {
-      AutomaticTracker automaticTracker =
-          AutomaticTracker.newInstanceIfPossible(application, this /* tracker */);
-      if (automaticTracker != null) {
-        automaticTracker.register();
-        mAutomaticTracker = automaticTracker;
-        return true;
-      }
-    }
-    return false;
-  }
-
-  public boolean endTracking() {
-    if (mAutomaticTracker != null) {
-      mAutomaticTracker.unregister();
-      mAutomaticTracker = null;
-      return true;
-    }
-    return false;
-  }
-
-  public void add(Activity activity) {
-    Util.throwIfNull(activity);
-    Util.throwIfNot(Looper.myLooper() == Looper.getMainLooper());
-    mActivities.add(activity);
-    for (Listener listener : mListeners) {
-      listener.onActivityAdded(activity);
-    }
-  }
-
-  public void remove(Activity activity) {
-    Util.throwIfNull(activity);
-    Util.throwIfNot(Looper.myLooper() == Looper.getMainLooper());
-    if (mActivities.remove(activity)) {
-      for (Listener listener : mListeners) {
-        listener.onActivityRemoved(activity);
-      }
-    }
-  }
-
-  public List<Activity> getActivitiesView() {
-    return mActivitiesUnmodifiable;
-  }
-
-  public Activity tryGetTopActivity() {
-    if (mActivitiesUnmodifiable.isEmpty()) {
-      return null;
-    }
-    return mActivitiesUnmodifiable.get(mActivitiesUnmodifiable.size() - 1);
-  }
-
-  public interface Listener {
-    public void onActivityAdded(Activity activity);
-    public void onActivityRemoved(Activity activity);
-  }
-
-  private static abstract class AutomaticTracker {
     @Nullable
-    public static AutomaticTracker newInstanceIfPossible(
-        Application application,
-        ActivityTracker tracker) {
-      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-        return new AutomaticTrackerICSAndBeyond(application, tracker);
-      } else {
-        return null;
-      }
+    private AutomaticTracker mAutomaticTracker;
+
+    public static ActivityTracker get() {
+        return sInstance;
     }
 
-    public abstract void register();
-    public abstract void unregister();
-
-    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-    private static class AutomaticTrackerICSAndBeyond extends AutomaticTracker {
-      private final Application mApplication;
-      private final ActivityTracker mTracker;
-
-      public AutomaticTrackerICSAndBeyond(Application application, ActivityTracker tracker) {
-        mApplication = application;
-        mTracker = tracker;
-      }
-
-      public void register() {
-        mApplication.registerActivityLifecycleCallbacks(mLifecycleCallbacks);
-      }
-
-      public void unregister() {
-        mApplication.unregisterActivityLifecycleCallbacks(mLifecycleCallbacks);
-      }
-
-      private final Application.ActivityLifecycleCallbacks mLifecycleCallbacks =
-          new Application.ActivityLifecycleCallbacks() {
-        @Override
-        public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-          mTracker.add(activity);
-        }
-
-        @Override
-        public void onActivityStarted(Activity activity) {
-
-        }
-
-        @Override
-        public void onActivityResumed(final Activity activity) {
-
-        }
-
-        @Override
-        public void onActivityPaused(Activity activity) {
-
-        }
-
-        @Override
-        public void onActivityStopped(Activity activity) {
-
-        }
-
-        @Override
-        public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
-
-        }
-
-        @Override
-        public void onActivityDestroyed(Activity activity) {
-          mTracker.remove(activity);
-        }
-      };
+    public void registerListener(Listener listener) {
+        mListeners.add(listener);
     }
-  }
+
+    public void unregisterListener(Listener listener) {
+        mListeners.remove(listener);
+    }
+
+    /**
+     * Start automatic tracking if we are running on ICS+.
+     *
+     * @return Automatic tracking has been started.  No need to manually invoke {@link #add} or
+     * {@link #remove} methods.
+     */
+    public boolean beginTrackingIfPossible(Application application) {
+        if (mAutomaticTracker == null) {
+            AutomaticTracker automaticTracker =
+                    AutomaticTracker.newInstanceIfPossible(application, this /* tracker */);
+            if (automaticTracker != null) {
+                automaticTracker.register();
+                mAutomaticTracker = automaticTracker;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean endTracking() {
+        if (mAutomaticTracker != null) {
+            mAutomaticTracker.unregister();
+            mAutomaticTracker = null;
+            return true;
+        }
+        return false;
+    }
+
+    public void add(Activity activity) {
+        Util.throwIfNull(activity);
+        Util.throwIfNot(Looper.myLooper() == Looper.getMainLooper());
+        mActivities.add(activity);
+        for (Listener listener : mListeners) {
+            listener.onActivityAdded(activity);
+        }
+    }
+
+    public void remove(Activity activity) {
+        Util.throwIfNull(activity);
+        Util.throwIfNot(Looper.myLooper() == Looper.getMainLooper());
+        if (mActivities.remove(activity)) {
+            for (Listener listener : mListeners) {
+                listener.onActivityRemoved(activity);
+            }
+        }
+    }
+
+    public List<Activity> getActivitiesView() {
+        return mActivitiesUnmodifiable;
+    }
+
+    public Activity tryGetTopActivity() {
+        if (mActivitiesUnmodifiable.isEmpty()) {
+            return null;
+        }
+        return mActivitiesUnmodifiable.get(mActivitiesUnmodifiable.size() - 1);
+    }
+
+    public interface Listener {
+        public void onActivityAdded(Activity activity);
+
+        public void onActivityRemoved(Activity activity);
+    }
+
+    private static abstract class AutomaticTracker {
+        @Nullable
+        public static AutomaticTracker newInstanceIfPossible(
+                Application application,
+                ActivityTracker tracker) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+                return new AutomaticTrackerICSAndBeyond(application, tracker);
+            } else {
+                return null;
+            }
+        }
+
+        public abstract void register();
+
+        public abstract void unregister();
+
+        @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+        private static class AutomaticTrackerICSAndBeyond extends AutomaticTracker {
+            private final Application mApplication;
+            private final ActivityTracker mTracker;
+
+            public AutomaticTrackerICSAndBeyond(Application application, ActivityTracker tracker) {
+                mApplication = application;
+                mTracker = tracker;
+            }
+
+            public void register() {
+                mApplication.registerActivityLifecycleCallbacks(mLifecycleCallbacks);
+            }
+
+            public void unregister() {
+                mApplication.unregisterActivityLifecycleCallbacks(mLifecycleCallbacks);
+            }
+
+            private final Application.ActivityLifecycleCallbacks mLifecycleCallbacks =
+                    new Application.ActivityLifecycleCallbacks() {
+                        @Override
+                        public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+                            mTracker.add(activity);
+                        }
+
+                        @Override
+                        public void onActivityStarted(Activity activity) {
+
+                        }
+
+                        @Override
+                        public void onActivityResumed(final Activity activity) {
+
+                        }
+
+                        @Override
+                        public void onActivityPaused(Activity activity) {
+
+                        }
+
+                        @Override
+                        public void onActivityStopped(Activity activity) {
+
+                        }
+
+                        @Override
+                        public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+
+                        }
+
+                        @Override
+                        public void onActivityDestroyed(Activity activity) {
+                            mTracker.remove(activity);
+                        }
+                    };
+        }
+    }
 }

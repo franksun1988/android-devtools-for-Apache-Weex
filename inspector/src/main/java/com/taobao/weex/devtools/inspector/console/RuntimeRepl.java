@@ -10,5 +10,5 @@
 package com.taobao.weex.devtools.inspector.console;
 
 public interface RuntimeRepl {
-  Object evaluate(String expression) throws Throwable;
+    Object evaluate(String expression) throws Throwable;
 }

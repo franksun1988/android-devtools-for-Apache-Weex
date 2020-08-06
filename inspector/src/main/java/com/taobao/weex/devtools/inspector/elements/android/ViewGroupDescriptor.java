@@ -23,71 +23,71 @@ import java.util.WeakHashMap;
 
 final class ViewGroupDescriptor extends AbstractChainedDescriptor<ViewGroup> {
 
-  /**
-   * This is a cache that maps from a View to the Fragment that contains it. If the View isn't
-   * contained by a Fragment, then this maps the View to itself. For Views contained by Fragments,
-   * we emit the Fragment instead, and then let the Fragment's descriptor emit the View as its sole
-   * child. This allows us to see Fragments in the inspector as part of the UI tree.
-   */
-  private final Map<View, Object> mViewToElementMap =
-      Collections.synchronizedMap(new WeakHashMap<View, Object>());
-
-  public ViewGroupDescriptor() {
-  }
-
-  @Override
-  protected void onGetChildren(ViewGroup element, Accumulator<Object> children) {
-    for (int i = 0, N = element.getChildCount(); i < N; ++i) {
-      final View childView = element.getChildAt(i);
-      if (isChildVisible(childView)) {
-        final Object childElement = getElementForView(element, childView);
-        children.store(childElement);
-      }
-    }
-  }
-
-  private boolean isChildVisible(View child) {
-    return !(child instanceof DocumentHiddenView);
-  }
-
-  private Object getElementForView(ViewGroup parentView, View childView) {
-    Object value = mViewToElementMap.get(childView);
-    if (value != null) {
-      Object element = getElement(childView, value);
-
-      // The parent of a View may have changed since we stashed it into the cache.
-      // If that's the case then we can't use the cache's answer.
-      if (element != null && childView.getParent() == parentView) {
-        return element;
-      }
-      mViewToElementMap.remove(childView);
-    }
-
     /**
-     * Note that we do NOT emit DialogFragments. Those get emitted via ActivityDescriptor.
-     * We do the check here so that we can also cache the cost of calling
-     * {@link FragmentCompatUtil#isDialogFragment(Object)}.
+     * This is a cache that maps from a View to the Fragment that contains it. If the View isn't
+     * contained by a Fragment, then this maps the View to itself. For Views contained by Fragments,
+     * we emit the Fragment instead, and then let the Fragment's descriptor emit the View as its sole
+     * child. This allows us to see Fragments in the inspector as part of the UI tree.
      */
+    private final Map<View, Object> mViewToElementMap =
+            Collections.synchronizedMap(new WeakHashMap<View, Object>());
 
-    Object fragment = FragmentCompatUtil.findFragmentForView(childView);
-    if (fragment != null && !FragmentCompatUtil.isDialogFragment(fragment)) {
-      mViewToElementMap.put(childView, new WeakReference<>(fragment));
-      return fragment;
-    } else {
-      // No need to store a strong reference to the childView in the value. We'll just store this
-      // object and when pull the value out of the map we'll check for this object and just use the
-      // key instead.
-      mViewToElementMap.put(childView, this);
-      return childView;
+    public ViewGroupDescriptor() {
     }
-  }
 
-  @SuppressWarnings("unchecked")
-  private Object getElement(View childView, Object value) {
-    if (value == this) {
-      return childView;
-    } else {
-      return ((WeakReference<Object>) value).get();
+    @Override
+    protected void onGetChildren(ViewGroup element, Accumulator<Object> children) {
+        for (int i = 0, N = element.getChildCount(); i < N; ++i) {
+            final View childView = element.getChildAt(i);
+            if (isChildVisible(childView)) {
+                final Object childElement = getElementForView(element, childView);
+                children.store(childElement);
+            }
+        }
     }
-  }
+
+    private boolean isChildVisible(View child) {
+        return !(child instanceof DocumentHiddenView);
+    }
+
+    private Object getElementForView(ViewGroup parentView, View childView) {
+        Object value = mViewToElementMap.get(childView);
+        if (value != null) {
+            Object element = getElement(childView, value);
+
+            // The parent of a View may have changed since we stashed it into the cache.
+            // If that's the case then we can't use the cache's answer.
+            if (element != null && childView.getParent() == parentView) {
+                return element;
+            }
+            mViewToElementMap.remove(childView);
+        }
+
+        /**
+         * Note that we do NOT emit DialogFragments. Those get emitted via ActivityDescriptor.
+         * We do the check here so that we can also cache the cost of calling
+         * {@link FragmentCompatUtil#isDialogFragment(Object)}.
+         */
+
+        Object fragment = FragmentCompatUtil.findFragmentForView(childView);
+        if (fragment != null && !FragmentCompatUtil.isDialogFragment(fragment)) {
+            mViewToElementMap.put(childView, new WeakReference<>(fragment));
+            return fragment;
+        } else {
+            // No need to store a strong reference to the childView in the value. We'll just store this
+            // object and when pull the value out of the map we'll check for this object and just use the
+            // key instead.
+            mViewToElementMap.put(childView, this);
+            return childView;
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private Object getElement(View childView, Object value) {
+        if (value == this) {
+            return childView;
+        } else {
+            return ((WeakReference<Object>) value).get();
+        }
+    }
 }

@@ -12,6 +12,7 @@ package com.taobao.weex.devtools.inspector.helper;
 import com.taobao.weex.devtools.inspector.jsonrpc.JsonRpcPeer;
 
 public interface PeerRegistrationListener {
-  void onPeerRegistered(JsonRpcPeer peer);
-  void onPeerUnregistered(JsonRpcPeer peer);
+    void onPeerRegistered(JsonRpcPeer peer);
+
+    void onPeerUnregistered(JsonRpcPeer peer);
 }

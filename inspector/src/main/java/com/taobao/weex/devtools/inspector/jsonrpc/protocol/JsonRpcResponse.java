@@ -15,14 +15,14 @@ import com.taobao.weex.devtools.json.annotation.JsonProperty;
 
 import org.json.JSONObject;
 
-@SuppressLint({ "UsingDefaultJsonDeserializer", "EmptyJsonPropertyUse" })
+@SuppressLint({"UsingDefaultJsonDeserializer", "EmptyJsonPropertyUse"})
 public class JsonRpcResponse {
-  @JsonProperty(required = true)
-  public long id;
+    @JsonProperty(required = true)
+    public long id;
 
-  @JsonProperty
-  public JSONObject result;
+    @JsonProperty
+    public JSONObject result;
 
-  @JsonProperty
-  public JSONObject error;
+    @JsonProperty
+    public JSONObject error;
 }

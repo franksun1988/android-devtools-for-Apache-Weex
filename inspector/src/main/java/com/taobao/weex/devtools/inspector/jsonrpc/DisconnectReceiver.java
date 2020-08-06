@@ -13,8 +13,8 @@ package com.taobao.weex.devtools.inspector.jsonrpc;
  * @see JsonRpcPeer#registerDisconnectReceiver(DisconnectReceiver)
  */
 public interface DisconnectReceiver {
-  /**
-   * Invoked when a WebSocket peer disconnects.
-   */
-  void onDisconnect();
+    /**
+     * Invoked when a WebSocket peer disconnects.
+     */
+    void onDisconnect();
 }

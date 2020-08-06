@@ -11,44 +11,45 @@ package com.taobao.weex.devtools.inspector.helper;
 
 import android.annotation.TargetApi;
 import android.os.Build;
-import android.support.annotation.Nullable;
 import android.view.ViewDebug;
 
+import androidx.annotation.Nullable;
+
 public class IntegerFormatter {
-  private static volatile IntegerFormatter cachedFormatter;
+    private static volatile IntegerFormatter cachedFormatter;
 
-  public static IntegerFormatter getInstance() {
-    if (cachedFormatter == null) {
-      synchronized (IntegerFormatter.class) {
+    public static IntegerFormatter getInstance() {
         if (cachedFormatter == null) {
-          if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            cachedFormatter = new IntegerFormatterWithHex();
-          } else {
-            cachedFormatter = new IntegerFormatter();
-          }
+            synchronized (IntegerFormatter.class) {
+                if (cachedFormatter == null) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        cachedFormatter = new IntegerFormatterWithHex();
+                    } else {
+                        cachedFormatter = new IntegerFormatter();
+                    }
+                }
+            }
         }
-      }
+
+        return cachedFormatter;
     }
 
-    return cachedFormatter;
-  }
+    private IntegerFormatter() {
+    }
 
-  private IntegerFormatter() {
-  }
-
-  public String format(Integer integer, @Nullable ViewDebug.ExportedProperty annotation) {
-    return String.valueOf(integer);
-  }
-
-  private static class IntegerFormatterWithHex extends IntegerFormatter {
-    @Override
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public String format(Integer integer, @Nullable ViewDebug.ExportedProperty annotation) {
-      if (annotation != null && annotation.formatToHexString()) {
-        return "0x" + Integer.toHexString(integer);
-      }
-
-      return super.format(integer, annotation);
+        return String.valueOf(integer);
     }
-  }
+
+    private static class IntegerFormatterWithHex extends IntegerFormatter {
+        @Override
+        @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+        public String format(Integer integer, @Nullable ViewDebug.ExportedProperty annotation) {
+            if (annotation != null && annotation.formatToHexString()) {
+                return "0x" + Integer.toHexString(integer);
+            }
+
+            return super.format(integer, annotation);
+        }
+    }
 }

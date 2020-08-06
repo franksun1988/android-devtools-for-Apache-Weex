@@ -16,14 +16,14 @@ import com.taobao.weex.devtools.inspector.protocol.ChromeDevtoolsMethod;
 import org.json.JSONObject;
 
 public class Inspector implements ChromeDevtoolsDomain {
-  public Inspector() {
-  }
+    public Inspector() {
+    }
 
-  @ChromeDevtoolsMethod
-  public void enable(JsonRpcPeer peer, JSONObject params) {
-  }
+    @ChromeDevtoolsMethod
+    public void enable(JsonRpcPeer peer, JSONObject params) {
+    }
 
-  @ChromeDevtoolsMethod
-  public void disable(JsonRpcPeer peer, JSONObject params) {
-  }
+    @ChromeDevtoolsMethod
+    public void disable(JsonRpcPeer peer, JSONObject params) {
+    }
 }

@@ -24,16 +24,16 @@ import com.taobao.weex.devtools.common.Accumulator;
  * doesn't have a registration, then the super-super class will be used (and so on). This allows you
  * to implement {@link Descriptor} for any class in an inheritance hierarchy without having to
  * couple it (via direct inheritance) to the super-class' {@link Descriptor}.<p>
- *
+ * <p>
  * To understand why this is useful, let's say you wanted to write a {@link Descriptor} for
  * {@link ListView}. You have three options:<p>
- *
+ * <p>
  * The first option is to derive directly from {@link Descriptor} and write code to describe
  * everything about instances of {@link ListView}, including details that are exposed by super
  * classes such as {@link ViewGroup}, {@link View}, and even {@link Object}. This isn't generally
  * a very good choice because it would require a lot of duplicated code amongst many descriptor
  * implementations.<p>
- *
+ * <p>
  * The second option is to derive your 'ListViewDescriptor' from
  * {com.taobao.weex.devtools.inspector.elements.android.ViewGroupDescriptor} and only implement
  * code to describe how {@link ListView} differs from {@link ViewGroup}. This will result in a class
@@ -49,10 +49,10 @@ import com.taobao.weex.devtools.common.Accumulator;
  * derived from { com.taobao.weex.devtools.inspector.elements.android.ViewGroupDescriptor} and
  * described a class deriving from {@link AbsListView} would have to be modified to now derive from
  * 'AbsListViewDescriptor'.<p>
- *
+ * <p>
  * The third option is to implement {@link ChainedDescriptor} (e.g. by deriving from
  * {@link AbstractChainedDescriptor}) which solves all of these issues for you.<p>
  */
 public interface ChainedDescriptor {
-  void setSuper(Descriptor superDescriptor);
+    void setSuper(Descriptor superDescriptor);
 }

@@ -21,46 +21,46 @@ import javax.annotation.Nullable;
 
 // @VisibleForTest
 public class DecompressionHelper {
-  protected static final String GZIP_ENCODING = "gzip";
-  protected static final String DEFLATE_ENCODING = "deflate";
+    protected static final String GZIP_ENCODING = "gzip";
+    protected static final String DEFLATE_ENCODING = "deflate";
 
-  public static InputStream teeInputWithDecompression(
-      NetworkPeerManager peerManager,
-      String requestId,
-      InputStream availableInputStream,
-      OutputStream decompressedOutput,
-      @Nullable String contentEncoding,
-      ResponseHandler responseHandler) throws IOException {
-    OutputStream output = decompressedOutput;
-    CountingOutputStream decompressedCounter = null;
+    public static InputStream teeInputWithDecompression(
+            NetworkPeerManager peerManager,
+            String requestId,
+            InputStream availableInputStream,
+            OutputStream decompressedOutput,
+            @Nullable String contentEncoding,
+            ResponseHandler responseHandler) throws IOException {
+        OutputStream output = decompressedOutput;
+        CountingOutputStream decompressedCounter = null;
 
-    if (contentEncoding != null) {
-      boolean gzipEncoding = GZIP_ENCODING.equals(contentEncoding);
-      boolean deflateEncoding = DEFLATE_ENCODING.equals(contentEncoding);
+        if (contentEncoding != null) {
+            boolean gzipEncoding = GZIP_ENCODING.equals(contentEncoding);
+            boolean deflateEncoding = DEFLATE_ENCODING.equals(contentEncoding);
 
-      if (gzipEncoding || deflateEncoding) {
-        decompressedCounter = new CountingOutputStream(decompressedOutput);
-        if (gzipEncoding) {
-          output = GunzippingOutputStream.create(decompressedCounter);
-        } else if (deflateEncoding) {
-          output = new InflaterOutputStream(decompressedCounter);
+            if (gzipEncoding || deflateEncoding) {
+                decompressedCounter = new CountingOutputStream(decompressedOutput);
+                if (gzipEncoding) {
+                    output = GunzippingOutputStream.create(decompressedCounter);
+                } else if (deflateEncoding) {
+                    output = new InflaterOutputStream(decompressedCounter);
+                }
+            } else {
+                CLog.writeToConsole(
+                        peerManager,
+                        Console.MessageLevel.WARNING,
+                        Console.MessageSource.NETWORK,
+                        "Unsupported Content-Encoding in response for request #" + requestId +
+                                ": " + contentEncoding);
+            }
         }
-      } else {
-        CLog.writeToConsole(
-            peerManager,
-            Console.MessageLevel.WARNING,
-            Console.MessageSource.NETWORK,
-            "Unsupported Content-Encoding in response for request #" + requestId +
-                ": " + contentEncoding);
-      }
-    }
 
-    return new ResponseHandlingInputStream(
-        availableInputStream,
-        requestId,
-        output,
-        decompressedCounter,
-        peerManager,
-        responseHandler);
-  }
+        return new ResponseHandlingInputStream(
+                availableInputStream,
+                requestId,
+                output,
+                decompressedCounter,
+                peerManager,
+                responseHandler);
+    }
 }

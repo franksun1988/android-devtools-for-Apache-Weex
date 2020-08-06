@@ -17,11 +17,11 @@ import com.taobao.weex.devtools.inspector.protocol.ChromeDevtoolsMethod;
 import org.json.JSONObject;
 
 public class Worker implements ChromeDevtoolsDomain {
-  public Worker() {
-  }
+    public Worker() {
+    }
 
-  @ChromeDevtoolsMethod
-  public JsonRpcResult canInspectWorkers(JsonRpcPeer peer, JSONObject params) {
-    return new SimpleBooleanResult(true);
-  }
+    @ChromeDevtoolsMethod
+    public JsonRpcResult canInspectWorkers(JsonRpcPeer peer, JSONObject params) {
+        return new SimpleBooleanResult(true);
+    }
 }

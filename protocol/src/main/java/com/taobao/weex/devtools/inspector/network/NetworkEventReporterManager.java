@@ -203,8 +203,9 @@
  */
 package com.taobao.weex.devtools.inspector.network;
 
-import android.support.annotation.Nullable;
 import android.util.Log;
+
+import androidx.annotation.Nullable;
 
 import java.io.InputStream;
 import java.lang.reflect.Method;
@@ -264,7 +265,7 @@ public class NetworkEventReporterManager {
 
     private static boolean allowReport() {
         try {
-            Class clazz = Class.forName("com.taobao.weex.WXEnvironment");
+            Class clazz = Class.forName("org.apache.weex.WXEnvironment");
             Method method = clazz.getMethod("isApkDebugable");
             return (boolean) method.invoke(null);
         } catch (Exception e) {

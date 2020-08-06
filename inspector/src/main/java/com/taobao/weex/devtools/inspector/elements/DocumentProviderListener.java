@@ -10,17 +10,17 @@
 package com.taobao.weex.devtools.inspector.elements;
 
 public interface DocumentProviderListener {
-  void onPossiblyChanged();
+    void onPossiblyChanged();
 
-  void onAttributeModified(
-      Object element,
-      String name,
-      String value);
+    void onAttributeModified(
+            Object element,
+            String name,
+            String value);
 
-  void onAttributeRemoved(
-      Object element,
-      String name);
+    void onAttributeRemoved(
+            Object element,
+            String name);
 
-  void onInspectRequested(
-      Object element);
+    void onInspectRequested(
+            Object element);
 }

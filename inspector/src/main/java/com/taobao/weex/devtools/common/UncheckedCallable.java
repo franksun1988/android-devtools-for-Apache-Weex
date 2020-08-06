@@ -19,5 +19,5 @@ package com.taobao.weex.devtools.common;
  * @param <V> the result type of method {@code call}
  */
 public interface UncheckedCallable<V> {
-  V call();
+    V call();
 }

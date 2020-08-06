@@ -10,7 +10,7 @@
 package com.taobao.weex.devtools.inspector.elements;
 
 public interface DocumentView {
-  Object getRootElement();
+    Object getRootElement();
 
-  ElementInfo getElementInfo(Object element);
+    ElementInfo getElementInfo(Object element);
 }

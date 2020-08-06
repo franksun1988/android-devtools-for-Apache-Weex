@@ -10,5 +10,5 @@
 package com.taobao.weex.devtools.inspector.elements;
 
 public interface AttributeAccumulator {
-  void store(String name, String value);
+    void store(String name, String value);
 }

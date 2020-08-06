@@ -22,15 +22,15 @@ import static org.junit.Assert.assertArrayEquals;
 
 @RunWith(JUnit4.class)
 public class GunzippingOutputStreamTest {
-  @Test(timeout = 1000)
-  public void testGunzip() throws IOException {
-    byte[] data = "test123test123".getBytes();
+    @Test(timeout = 1000)
+    public void testGunzip() throws IOException {
+        byte[] data = "test123test123".getBytes();
 
-    ByteArrayOutputStream out = new ByteArrayOutputStream();
-    OutputStream unzippingStream = GunzippingOutputStream.create(out);
-    OutputStream zippingStream = new GZIPOutputStream(unzippingStream);
-    zippingStream.write(data);
-    zippingStream.close();
-    assertArrayEquals(data, out.toByteArray());
-  }
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        OutputStream unzippingStream = GunzippingOutputStream.create(out);
+        OutputStream zippingStream = new GZIPOutputStream(unzippingStream);
+        zippingStream.write(data);
+        zippingStream.close();
+        assertArrayEquals(data, out.toByteArray());
+    }
 }

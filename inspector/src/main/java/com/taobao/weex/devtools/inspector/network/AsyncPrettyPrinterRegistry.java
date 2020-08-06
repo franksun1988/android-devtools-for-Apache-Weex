@@ -18,18 +18,18 @@ import javax.annotation.concurrent.ThreadSafe;
 @ThreadSafe
 public class AsyncPrettyPrinterRegistry {
 
-  private final Map<String, AsyncPrettyPrinterFactory> mRegistry = new HashMap<>();
+    private final Map<String, AsyncPrettyPrinterFactory> mRegistry = new HashMap<>();
 
-  public synchronized void register(String headerName, AsyncPrettyPrinterFactory factory) {
-    mRegistry.put(headerName, factory);
-  }
+    public synchronized void register(String headerName, AsyncPrettyPrinterFactory factory) {
+        mRegistry.put(headerName, factory);
+    }
 
-  @Nullable
-  public synchronized AsyncPrettyPrinterFactory lookup(String headerName) {
-    return mRegistry.get(headerName);
-  }
+    @Nullable
+    public synchronized AsyncPrettyPrinterFactory lookup(String headerName) {
+        return mRegistry.get(headerName);
+    }
 
-  public synchronized boolean unregister(String headerName) {
-    return mRegistry.remove(headerName) != null;
-  }
+    public synchronized boolean unregister(String headerName) {
+        return mRegistry.remove(headerName) != null;
+    }
 }

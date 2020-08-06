@@ -36,75 +36,80 @@ import javax.annotation.concurrent.NotThreadSafe;
  */
 @NotThreadSafe
 public abstract class FragmentCompat<
-    FRAGMENT,
-    DIALOG_FRAGMENT,
-    FRAGMENT_MANAGER,
-    FRAGMENT_ACTIVITY extends Activity> {
-  private static FragmentCompat sFrameworkInstance;
-  private static FragmentCompat sSupportInstance;
+        FRAGMENT,
+        DIALOG_FRAGMENT,
+        FRAGMENT_MANAGER,
+        FRAGMENT_ACTIVITY extends Activity> {
+    private static FragmentCompat sFrameworkInstance;
+    private static FragmentCompat sSupportInstance;
 
-  private static final boolean sHasSupportFragment;
+    private static final boolean sHasSupportFragment;
 
-  static {
-    sHasSupportFragment = ReflectionUtil.tryGetClassForName(
-        "android.support.v4.app.Fragment") != null;
-  }
-
-  @Nullable
-  public static FragmentCompat getFrameworkInstance() {
-    if (sFrameworkInstance == null &&
-        Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-      sFrameworkInstance = new FragmentCompatFramework();
+    static {
+        sHasSupportFragment = ReflectionUtil.tryGetClassForName(
+                "androidx.fragment.app.Fragment") != null;
     }
-    return sFrameworkInstance;
-  }
 
-  @Nullable
-  public static FragmentCompat getSupportLibInstance() {
-    if (sSupportInstance == null &&
-        sHasSupportFragment) {
-      sSupportInstance = new FragmentCompatSupportLib();
-    }
-    return sSupportInstance;
-  }
-
-  FragmentCompat() {
-  }
-
-  public abstract Class<FRAGMENT> getFragmentClass();
-  public abstract Class<DIALOG_FRAGMENT> getDialogFragmentClass();
-  public abstract Class<FRAGMENT_ACTIVITY> getFragmentActivityClass();
-
-  public abstract FragmentAccessor<FRAGMENT, FRAGMENT_MANAGER> forFragment();
-  public abstract DialogFragmentAccessor<DIALOG_FRAGMENT, FRAGMENT, FRAGMENT_MANAGER>
-      forDialogFragment();
-  public abstract FragmentManagerAccessor<FRAGMENT_MANAGER, FRAGMENT> forFragmentManager();
-  public abstract FragmentActivityAccessor<FRAGMENT_ACTIVITY, FRAGMENT_MANAGER> forFragmentActivity();
-
-  static class FragmentManagerAccessorViaReflection<FRAGMENT_MANAGER, FRAGMENT>
-      implements FragmentManagerAccessor<FRAGMENT_MANAGER, FRAGMENT> {
     @Nullable
-    private Field mFieldMAdded;
-
-    @SuppressWarnings("unchecked")
-    @Nullable
-    @Override
-    public List<FRAGMENT> getAddedFragments(FRAGMENT_MANAGER fragmentManager) {
-      // This field is actually sitting on FragmentManagerImpl, which derives from FragmentManager.
-      if (mFieldMAdded == null) {
-        Field fieldMAdded = ReflectionUtil.tryGetDeclaredField(
-            fragmentManager.getClass(),
-            "mAdded");
-
-        if (fieldMAdded != null) {
-          fieldMAdded.setAccessible(true);
-          mFieldMAdded = fieldMAdded;
+    public static FragmentCompat getFrameworkInstance() {
+        if (sFrameworkInstance == null &&
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            sFrameworkInstance = new FragmentCompatFramework();
         }
-      }
-
-      return (mFieldMAdded != null)
-          ? (List<FRAGMENT>)ReflectionUtil.getFieldValue(mFieldMAdded, fragmentManager)
-          : null;
+        return sFrameworkInstance;
     }
-  }
+
+    @Nullable
+    public static FragmentCompat getSupportLibInstance() {
+        if (sSupportInstance == null &&
+                sHasSupportFragment) {
+            sSupportInstance = new FragmentCompatSupportLib();
+        }
+        return sSupportInstance;
+    }
+
+    FragmentCompat() {
+    }
+
+    public abstract Class<FRAGMENT> getFragmentClass();
+
+    public abstract Class<DIALOG_FRAGMENT> getDialogFragmentClass();
+
+    public abstract Class<FRAGMENT_ACTIVITY> getFragmentActivityClass();
+
+    public abstract FragmentAccessor<FRAGMENT, FRAGMENT_MANAGER> forFragment();
+
+    public abstract DialogFragmentAccessor<DIALOG_FRAGMENT, FRAGMENT, FRAGMENT_MANAGER>
+    forDialogFragment();
+
+    public abstract FragmentManagerAccessor<FRAGMENT_MANAGER, FRAGMENT> forFragmentManager();
+
+    public abstract FragmentActivityAccessor<FRAGMENT_ACTIVITY, FRAGMENT_MANAGER> forFragmentActivity();
+
+    static class FragmentManagerAccessorViaReflection<FRAGMENT_MANAGER, FRAGMENT>
+            implements FragmentManagerAccessor<FRAGMENT_MANAGER, FRAGMENT> {
+        @Nullable
+        private Field mFieldMAdded;
+
+        @SuppressWarnings("unchecked")
+        @Nullable
+        @Override
+        public List<FRAGMENT> getAddedFragments(FRAGMENT_MANAGER fragmentManager) {
+            // This field is actually sitting on FragmentManagerImpl, which derives from FragmentManager.
+            if (mFieldMAdded == null) {
+                Field fieldMAdded = ReflectionUtil.tryGetDeclaredField(
+                        fragmentManager.getClass(),
+                        "mAdded");
+
+                if (fieldMAdded != null) {
+                    fieldMAdded.setAccessible(true);
+                    mFieldMAdded = fieldMAdded;
+                }
+            }
+
+            return (mFieldMAdded != null)
+                    ? (List<FRAGMENT>) ReflectionUtil.getFieldValue(mFieldMAdded, fragmentManager)
+                    : null;
+        }
+    }
 }

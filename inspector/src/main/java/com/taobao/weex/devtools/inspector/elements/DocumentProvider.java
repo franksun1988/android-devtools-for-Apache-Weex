@@ -20,21 +20,21 @@ import javax.annotation.Nullable;
  * @see DocumentProviderFactory
  */
 public interface DocumentProvider extends ThreadBound {
-  void setListener(DocumentProviderListener listener);
+    void setListener(DocumentProviderListener listener);
 
-  void dispose();
+    void dispose();
 
-  @Nullable
-  Object getRootElement();
+    @Nullable
+    Object getRootElement();
 
-  @Nullable
-  NodeDescriptor getNodeDescriptor(@Nullable Object element);
+    @Nullable
+    NodeDescriptor getNodeDescriptor(@Nullable Object element);
 
-  void highlightElement(Object element, int color);
+    void highlightElement(Object element, int color);
 
-  void hideHighlight();
+    void hideHighlight();
 
-  void setInspectModeEnabled(boolean enabled);
+    void setInspectModeEnabled(boolean enabled);
 
-  void setAttributesAsText(Object element, String text);
+    void setAttributesAsText(Object element, String text);
 }

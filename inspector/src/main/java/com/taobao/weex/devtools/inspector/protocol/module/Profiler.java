@@ -21,41 +21,41 @@ import java.util.Collections;
 import java.util.List;
 
 public class Profiler implements ChromeDevtoolsDomain {
-  public Profiler() {
-  }
+    public Profiler() {
+    }
 
-  @ChromeDevtoolsMethod
-  public void enable(JsonRpcPeer peer, JSONObject params) {
-  }
+    @ChromeDevtoolsMethod
+    public void enable(JsonRpcPeer peer, JSONObject params) {
+    }
 
-  @ChromeDevtoolsMethod
-  public void disable(JsonRpcPeer peer, JSONObject params) {
-  }
+    @ChromeDevtoolsMethod
+    public void disable(JsonRpcPeer peer, JSONObject params) {
+    }
 
-  @ChromeDevtoolsMethod
-  public void setSamplingInterval(JsonRpcPeer peer, JSONObject params) {
-  }
+    @ChromeDevtoolsMethod
+    public void setSamplingInterval(JsonRpcPeer peer, JSONObject params) {
+    }
 
-  @ChromeDevtoolsMethod
-  public JsonRpcResult getProfileHeaders(JsonRpcPeer peer, JSONObject params) {
-    ProfileHeaderResponse response = new ProfileHeaderResponse();
-    response.headers = Collections.emptyList();
-    return response;
-  }
+    @ChromeDevtoolsMethod
+    public JsonRpcResult getProfileHeaders(JsonRpcPeer peer, JSONObject params) {
+        ProfileHeaderResponse response = new ProfileHeaderResponse();
+        response.headers = Collections.emptyList();
+        return response;
+    }
 
-  private static class ProfileHeaderResponse implements JsonRpcResult {
-    @JsonProperty(required = true)
-    public List<ProfileHeader> headers;
-  }
+    private static class ProfileHeaderResponse implements JsonRpcResult {
+        @JsonProperty(required = true)
+        public List<ProfileHeader> headers;
+    }
 
-  private static class ProfileHeader {
-    @JsonProperty(required = true)
-    String typeId;
+    private static class ProfileHeader {
+        @JsonProperty(required = true)
+        String typeId;
 
-    @JsonProperty(required = true)
-    String title;
+        @JsonProperty(required = true)
+        String title;
 
-    @JsonProperty(required = true)
-    int uid;
-  }
+        @JsonProperty(required = true)
+        int uid;
+    }
 }

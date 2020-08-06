@@ -12,22 +12,22 @@ package com.taobao.weex.devtools.inspector.elements;
 import com.taobao.weex.devtools.json.annotation.JsonValue;
 
 public enum NodeType {
-  ELEMENT_NODE(1),
-  TEXT_NODE(3),
-  PROCESSING_INSTRUCTION_NODE(7),
-  COMMENT_NODE(8),
-  DOCUMENT_NODE(9),
-  DOCUMENT_TYPE_NODE(10),
-  DOCUMENT_FRAGMENT_NODE(11);
+    ELEMENT_NODE(1),
+    TEXT_NODE(3),
+    PROCESSING_INSTRUCTION_NODE(7),
+    COMMENT_NODE(8),
+    DOCUMENT_NODE(9),
+    DOCUMENT_TYPE_NODE(10),
+    DOCUMENT_FRAGMENT_NODE(11);
 
-  private final int mValue;
+    private final int mValue;
 
-  private NodeType(int value) {
-    mValue = value;
-  }
+    private NodeType(int value) {
+        mValue = value;
+    }
 
-  @JsonValue
-  public int getProtocolValue() {
-    return mValue;
-  }
+    @JsonValue
+    public int getProtocolValue() {
+        return mValue;
+    }
 }

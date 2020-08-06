@@ -20,24 +20,24 @@ import com.taobao.weex.devtools.inspector.elements.Descriptor;
 import javax.annotation.Nullable;
 
 final class DialogDescriptor
-    extends AbstractChainedDescriptor<Dialog> implements HighlightableDescriptor {
-  @Override
-  protected void onGetChildren(Dialog element, Accumulator<Object> children) {
-    Window window = element.getWindow();
-    if (window != null) {
-      children.store(window);
-    }
-  }
-
-  @Nullable
-  @Override
-  public View getViewForHighlighting(Object element) {
-    final Descriptor.Host host = getHost();
-    if (host instanceof AndroidDescriptorHost) {
-      final Dialog dialog = (Dialog) element;
-      return ((AndroidDescriptorHost) host).getHighlightingView(dialog.getWindow());
+        extends AbstractChainedDescriptor<Dialog> implements HighlightableDescriptor {
+    @Override
+    protected void onGetChildren(Dialog element, Accumulator<Object> children) {
+        Window window = element.getWindow();
+        if (window != null) {
+            children.store(window);
+        }
     }
 
-    return null;
-  }
+    @Nullable
+    @Override
+    public View getViewForHighlighting(Object element) {
+        final Descriptor.Host host = getHost();
+        if (host instanceof AndroidDescriptorHost) {
+            final Dialog dialog = (Dialog) element;
+            return ((AndroidDescriptorHost) host).getHighlightingView(dialog.getWindow());
+        }
+
+        return null;
+    }
 }

@@ -21,26 +21,26 @@ import java.util.Collections;
 import java.util.List;
 
 public class HeapProfiler implements ChromeDevtoolsDomain {
-  public HeapProfiler() {
-  }
+    public HeapProfiler() {
+    }
 
-  @ChromeDevtoolsMethod
-  public JsonRpcResult getProfileHeaders(JsonRpcPeer peer, JSONObject params) {
-    ProfileHeaderResponse response = new ProfileHeaderResponse();
-    response.headers = Collections.emptyList();
-    return response;
-  }
+    @ChromeDevtoolsMethod
+    public JsonRpcResult getProfileHeaders(JsonRpcPeer peer, JSONObject params) {
+        ProfileHeaderResponse response = new ProfileHeaderResponse();
+        response.headers = Collections.emptyList();
+        return response;
+    }
 
-  private static class ProfileHeaderResponse implements JsonRpcResult {
-    @JsonProperty(required = true)
-    public List<ProfileHeader> headers;
-  }
+    private static class ProfileHeaderResponse implements JsonRpcResult {
+        @JsonProperty(required = true)
+        public List<ProfileHeader> headers;
+    }
 
-  private static class ProfileHeader {
-    @JsonProperty(required = true)
-    public String title;
+    private static class ProfileHeader {
+        @JsonProperty(required = true)
+        public String title;
 
-    @JsonProperty(required = true)
-    public int uid;
-  }
+        @JsonProperty(required = true)
+        public int uid;
+    }
 }

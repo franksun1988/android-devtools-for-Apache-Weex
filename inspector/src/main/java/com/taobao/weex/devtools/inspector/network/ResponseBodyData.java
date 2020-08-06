@@ -14,6 +14,6 @@ package com.taobao.weex.devtools.inspector.network;
  * us just naively base64 encode everything.
  */
 public class ResponseBodyData {
-  public String data;
-  public boolean base64Encoded;
+    public String data;
+    public boolean base64Encoded;
 }

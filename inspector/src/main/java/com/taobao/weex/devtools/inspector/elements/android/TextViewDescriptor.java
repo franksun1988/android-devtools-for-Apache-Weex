@@ -22,61 +22,61 @@ import java.util.IdentityHashMap;
 import java.util.Map;
 
 final class TextViewDescriptor extends AbstractChainedDescriptor<TextView> {
-  private static final String TEXT_ATTRIBUTE_NAME = "text";
+    private static final String TEXT_ATTRIBUTE_NAME = "text";
 
-  private final Map<TextView, ElementContext> mElementToContextMap =
-      Collections.synchronizedMap(new IdentityHashMap<TextView, ElementContext>());
+    private final Map<TextView, ElementContext> mElementToContextMap =
+            Collections.synchronizedMap(new IdentityHashMap<TextView, ElementContext>());
 
-  @Override
-  protected void onHook(final TextView element) {
-    ElementContext context = new ElementContext();
-    context.hook(element);
-    mElementToContextMap.put(element, context);
-  }
-
-  protected void onUnhook(TextView element) {
-    ElementContext context = mElementToContextMap.remove(element);
-    context.unhook();
-  }
-
-  @Override
-  protected void onGetAttributes(TextView element, AttributeAccumulator attributes) {
-    CharSequence text = element.getText();
-    if (text.length() != 0) {
-      attributes.store(TEXT_ATTRIBUTE_NAME, text.toString());
-    }
-  }
-
-  private final class ElementContext implements TextWatcher {
-    private TextView mElement;
-
-    public void hook(TextView element) {
-      mElement = Util.throwIfNull(element);
-      mElement.addTextChangedListener(this);
+    @Override
+    protected void onHook(final TextView element) {
+        ElementContext context = new ElementContext();
+        context.hook(element);
+        mElementToContextMap.put(element, context);
     }
 
-    public void unhook() {
-      if (mElement != null) {
-        mElement.removeTextChangedListener(this);
-        mElement = null;
-      }
+    protected void onUnhook(TextView element) {
+        ElementContext context = mElementToContextMap.remove(element);
+        context.unhook();
     }
 
     @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+    protected void onGetAttributes(TextView element, AttributeAccumulator attributes) {
+        CharSequence text = element.getText();
+        if (text.length() != 0) {
+            attributes.store(TEXT_ATTRIBUTE_NAME, text.toString());
+        }
     }
 
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-    }
+    private final class ElementContext implements TextWatcher {
+        private TextView mElement;
 
-    @Override
-    public void afterTextChanged(Editable s) {
-      if (s.length() == 0) {
-        getHost().onAttributeRemoved(mElement, TEXT_ATTRIBUTE_NAME);
-      } else {
-        getHost().onAttributeModified(mElement, TEXT_ATTRIBUTE_NAME, s.toString());
-      }
+        public void hook(TextView element) {
+            mElement = Util.throwIfNull(element);
+            mElement.addTextChangedListener(this);
+        }
+
+        public void unhook() {
+            if (mElement != null) {
+                mElement.removeTextChangedListener(this);
+                mElement = null;
+            }
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            if (s.length() == 0) {
+                getHost().onAttributeRemoved(mElement, TEXT_ATTRIBUTE_NAME);
+            } else {
+                getHost().onAttributeModified(mElement, TEXT_ATTRIBUTE_NAME, s.toString());
+            }
+        }
     }
-  }
 }

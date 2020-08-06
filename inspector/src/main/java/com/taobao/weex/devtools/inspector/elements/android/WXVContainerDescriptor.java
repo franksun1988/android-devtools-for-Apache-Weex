@@ -4,11 +4,11 @@ import android.view.ViewGroup;
 
 import com.taobao.weex.devtools.common.Accumulator;
 import com.taobao.weex.devtools.inspector.elements.AbstractChainedDescriptor;
-import com.taobao.weex.devtools.inspector.elements.AttributeAccumulator;
 import com.taobao.weex.devtools.inspector.elements.StyleAccumulator;
 import com.taobao.weex.devtools.inspector.elements.W3CStyleConstants;
-import com.taobao.weex.ui.component.WXComponent;
-import com.taobao.weex.ui.component.WXVContainer;
+
+import org.apache.weex.ui.component.WXComponent;
+import org.apache.weex.ui.component.WXVContainer;
 
 /**
  * Created by budao on 16/8/4.

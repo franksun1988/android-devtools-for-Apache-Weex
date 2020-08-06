@@ -17,19 +17,19 @@ import org.json.JSONObject;
 
 import javax.annotation.Nullable;
 
-@SuppressLint({ "UsingDefaultJsonDeserializer", "EmptyJsonPropertyUse" })
+@SuppressLint({"UsingDefaultJsonDeserializer", "EmptyJsonPropertyUse"})
 public class JsonRpcEvent {
-  @JsonProperty(required = true)
-  public String method;
+    @JsonProperty(required = true)
+    public String method;
 
-  @JsonProperty
-  public JSONObject params;
+    @JsonProperty
+    public JSONObject params;
 
-  public JsonRpcEvent() {
-  }
+    public JsonRpcEvent() {
+    }
 
-  public JsonRpcEvent(String method, @Nullable JSONObject params) {
-    this.method = method;
-    this.params = params;
-  }
+    public JsonRpcEvent(String method, @Nullable JSONObject params) {
+        this.method = method;
+        this.params = params;
+    }
 }

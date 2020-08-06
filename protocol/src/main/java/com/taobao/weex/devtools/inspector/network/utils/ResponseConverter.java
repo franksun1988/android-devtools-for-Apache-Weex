@@ -1,7 +1,8 @@
 package com.taobao.weex.devtools.inspector.network.utils;
 
-import android.support.annotation.Nullable;
 import android.util.Pair;
+
+import androidx.annotation.Nullable;
 
 import com.taobao.weex.devtools.inspector.network.NetworkEventReporter;
 import com.taobao.weex.devtools.inspector.network.Timing;

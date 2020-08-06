@@ -27,42 +27,42 @@ import static org.junit.Assert.assertEquals;
 @RunWith(RobolectricTestRunner.class)
 public class MethodInvokerTest {
 
-  private final Activity mActivity = Robolectric.setupActivity(Activity.class);
-  private final TextView mTextView = new TextView(mActivity);
-  private final CheckBox mCheckBox = new CheckBox(mActivity);
-  private final MethodInvoker mInvoker = new MethodInvoker();
+    private final Activity mActivity = Robolectric.setupActivity(Activity.class);
+    private final TextView mTextView = new TextView(mActivity);
+    private final CheckBox mCheckBox = new CheckBox(mActivity);
+    private final MethodInvoker mInvoker = new MethodInvoker();
 
-  @Before
-  public void setup() {
-  }
+    @Before
+    public void setup() {
+    }
 
-  @Test
-  public void testSetCharSequence() {
-    mInvoker.invoke(mTextView, "setText", "Hello World");
-    assertEquals("Hello World", mTextView.getText().toString());
-  }
+    @Test
+    public void testSetCharSequence() {
+        mInvoker.invoke(mTextView, "setText", "Hello World");
+        assertEquals("Hello World", mTextView.getText().toString());
+    }
 
-  @Test
-  public void testSetInteger() {
-    mInvoker.invoke(mTextView, "setId", "2");
-    assertEquals(2, mTextView.getId());
-  }
+    @Test
+    public void testSetInteger() {
+        mInvoker.invoke(mTextView, "setId", "2");
+        assertEquals(2, mTextView.getId());
+    }
 
-  @Test
-  public void testSetFloat() {
-    mInvoker.invoke(mTextView, "setTextSize", "34");
-    assertEquals(34f, mTextView.getTextSize(), 0);
-  }
+    @Test
+    public void testSetFloat() {
+        mInvoker.invoke(mTextView, "setTextSize", "34");
+        assertEquals(34f, mTextView.getTextSize(), 0);
+    }
 
-  @Test
-  public void testSetBoolean() {
-    mInvoker.invoke(mCheckBox, "setChecked", "true");
-    assertEquals(true, mCheckBox.isChecked());
-  }
+    @Test
+    public void testSetBoolean() {
+        mInvoker.invoke(mCheckBox, "setChecked", "true");
+        assertEquals(true, mCheckBox.isChecked());
+    }
 
-  @Test
-  public void testSetAttributeAsTextIgnoreUnknownAttribute() {
-    // Should not throw
-    mInvoker.invoke(mTextView, "setSomething", "foo");
-  }
+    @Test
+    public void testSetAttributeAsTextIgnoreUnknownAttribute() {
+        // Should not throw
+        mInvoker.invoke(mTextView, "setSomething", "foo");
+    }
 }

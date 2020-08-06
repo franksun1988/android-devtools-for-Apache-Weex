@@ -19,24 +19,24 @@ import javax.annotation.Nullable;
  */
 final class AsyncPrettyPrinterExecutorHolder {
 
-  private static ExecutorService sExecutorService;
+    private static ExecutorService sExecutorService;
 
-  private AsyncPrettyPrinterExecutorHolder() {
-  }
-  
-  public static void ensureInitialized() {
-    if (sExecutorService == null) {
-      sExecutorService = Executors.newCachedThreadPool();
+    private AsyncPrettyPrinterExecutorHolder() {
     }
-  }
 
-  @Nullable
-  public static ExecutorService getExecutorService() {
-    return sExecutorService;
-  }
+    public static void ensureInitialized() {
+        if (sExecutorService == null) {
+            sExecutorService = Executors.newCachedThreadPool();
+        }
+    }
 
-  public static void shutdown() {
-    sExecutorService.shutdown();
-    sExecutorService = null;
-  }
+    @Nullable
+    public static ExecutorService getExecutorService() {
+        return sExecutorService;
+    }
+
+    public static void shutdown() {
+        sExecutorService.shutdown();
+        sExecutorService = null;
+    }
 }

@@ -15,24 +15,24 @@ import com.taobao.weex.devtools.common.ThreadBound;
 import javax.annotation.Nullable;
 
 public interface NodeDescriptor extends ThreadBound {
-  void hook(Object element);
+    void hook(Object element);
 
-  void unhook(Object element);
+    void unhook(Object element);
 
-  NodeType getNodeType(Object element);
+    NodeType getNodeType(Object element);
 
-  String getNodeName(Object element);
+    String getNodeName(Object element);
 
-  String getLocalName(Object element);
+    String getLocalName(Object element);
 
-  @Nullable
-  String getNodeValue(Object element);
+    @Nullable
+    String getNodeValue(Object element);
 
-  void getChildren(Object element, Accumulator<Object> children);
+    void getChildren(Object element, Accumulator<Object> children);
 
-  void getAttributes(Object element, AttributeAccumulator attributes);
+    void getAttributes(Object element, AttributeAccumulator attributes);
 
-  void setAttributesAsText(Object element, String text);
+    void setAttributesAsText(Object element, String text);
 
-  void getStyles(Object element, StyleAccumulator accumulator);
+    void getStyles(Object element, StyleAccumulator accumulator);
 }

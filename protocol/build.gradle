@@ -21,23 +21,42 @@ android {
     }
 }
 
-apply from: './bintray.gradle'
+//apply from: './bintray.gradle'
 buildscript {
     repositories {
-        maven { url "http://mvnrepo.alibaba-inc.com/mvn/repository" }
+//        maven { url "http://mvnrepo.alibaba-inc.com/mvn/repository" }
         mavenCentral()
-        jcenter()
+        jcenter(){
+            url 'https://maven.aliyun.com/repository/jcenter'
+        }
+        google()
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+
     }
 
     dependencies {
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.0'
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
+        classpath 'com.android.tools.build:gradle:4.0.0'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.5'
+//        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
     }
 }
 
+repositories {
+    maven(){
+        url 'https://maven.aliyun.com/repository/google'
+    }
+    mavenCentral()
+    jcenter(){
+        url 'https://maven.aliyun.com/repository/jcenter'
+    }
+    maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+}
+
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    provided 'com.android.support:support-annotations:25.0.1'
+//    provided 'com.android.support:support-annotations:25.0.1'
+    compileOnly 'androidx.appcompat:appcompat:1.0.2'
 }
 
 ext {
@@ -45,5 +64,5 @@ ext {
     PUBLISH_ARTIFACT_ID = 'protocol'
     PUBLISH_VERSION = '1.1.2'
 }
-apply from: 'https://raw.githubusercontent.com/blundell/release-android-library/master/android-release-aar.gradle'
-
+//apply from: 'https://raw.githubusercontent.com/blundell/release-android-library/master/android-release-aar.gradle'
+//apply from: './android-release-aar.gradle'

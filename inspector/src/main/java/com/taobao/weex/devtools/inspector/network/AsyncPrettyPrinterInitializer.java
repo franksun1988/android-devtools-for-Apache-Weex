@@ -16,12 +16,13 @@ package com.taobao.weex.devtools.inspector.network;
  */
 public interface AsyncPrettyPrinterInitializer {
 
-  /**
-   * Populates AsyncPrettyPrinterRegistry with header names and their corresponding pretty
-   * printers. This is responsible for registering all {@link AsyncPrettyPrinter} to the
-   * provided registry.
-   * @param registry
-   */
-  void populatePrettyPrinters(AsyncPrettyPrinterRegistry registry);
+    /**
+     * Populates AsyncPrettyPrinterRegistry with header names and their corresponding pretty
+     * printers. This is responsible for registering all {@link AsyncPrettyPrinter} to the
+     * provided registry.
+     *
+     * @param registry
+     */
+    void populatePrettyPrinters(AsyncPrettyPrinterRegistry registry);
 
 }

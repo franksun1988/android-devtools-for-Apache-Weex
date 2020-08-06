@@ -13,13 +13,13 @@ import com.taobao.weex.devtools.inspector.jsonrpc.JsonRpcResult;
 import com.taobao.weex.devtools.json.annotation.JsonProperty;
 
 public class SimpleBooleanResult implements JsonRpcResult {
-  @JsonProperty(required = true)
-  public boolean result;
+    @JsonProperty(required = true)
+    public boolean result;
 
-  public SimpleBooleanResult() {
-  }
+    public SimpleBooleanResult() {
+    }
 
-  public SimpleBooleanResult(boolean result) {
-    this.result = result;
-  }
+    public SimpleBooleanResult(boolean result) {
+        this.result = result;
+    }
 }
