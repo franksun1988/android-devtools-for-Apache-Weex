@@ -3,13 +3,14 @@
  * All rights reserved.
  *
  * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant 
+ * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
-*/
+ */
 
 package com.taobao.weex.okhttp3;
 
-import android.support.annotation.Nullable;
+
+import androidx.annotation.Nullable;
 
 import com.taobao.weex.devtools.inspector.network.DefaultResponseHandler;
 import com.taobao.weex.devtools.inspector.network.NetworkEventReporter;

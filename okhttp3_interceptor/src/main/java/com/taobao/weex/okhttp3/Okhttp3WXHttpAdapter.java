@@ -203,9 +203,9 @@
  */
 package com.taobao.weex.okhttp3;
 
-import com.taobao.weex.adapter.IWXHttpAdapter;
-import com.taobao.weex.common.WXRequest;
-import com.taobao.weex.common.WXResponse;
+import org.apache.weex.adapter.IWXHttpAdapter;
+import org.apache.weex.common.WXRequest;
+import org.apache.weex.common.WXResponse;
 
 import java.io.IOException;
 import java.util.HashMap;
